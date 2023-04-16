@@ -23,7 +23,7 @@ Configure the Flask development server run in «development» mode
 
 `export FLASK_DEBUG=1`
 
-`flask run`
+`flask run` or `flask --app app --debug run`
 
 # Tests
 
