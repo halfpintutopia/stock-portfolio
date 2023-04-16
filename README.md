@@ -30,6 +30,10 @@ Configure the Flask development server run in «development» mode
 Run test<br/>
 `python -m pytest`
 
+<br>
+
+`python -m pytest -v`
+
 or run `pytest` in the interpreter
 
 `tests` directory on the same level as app
