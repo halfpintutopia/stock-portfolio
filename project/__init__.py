@@ -34,7 +34,7 @@ def register_blueprints(app):
     # The blueprints effectively handle the 'Steady State' - where requests are processed (by view functions
     # and responses are returned
     app.register_blueprint(stocks_blueprint)
-    app.register_blueprint(users_blueprint, url='/users')
+    app.register_blueprint(users_blueprint, url_prefix='/users')
 
 
 def configure_logging(app):

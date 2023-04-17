@@ -34,6 +34,10 @@ Run test<br/>
 
 `python -m pytest -v`
 
+<br>
+
+`python -m pytest --setup-show --cov=project`
+
 or run `pytest` in the interpreter
 
 `tests` directory on the same level as app

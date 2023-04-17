@@ -1,7 +1,7 @@
 """
 This file contains the unit tests for the app.py file
 """
-from app import StockModel
+from project.stocks.routes import StockModel
 import pytest
 
 
