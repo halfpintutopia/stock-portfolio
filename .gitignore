@@ -4,3 +4,4 @@ __pycache__
 env.py
 flask-stock-portfolio.log
 flask.cfg
+instance
