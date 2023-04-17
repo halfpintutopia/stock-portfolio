@@ -1,21 +1,20 @@
 import logging
+import os
 from flask import Flask
 from flask.logging import default_handler
 from logging.handlers import RotatingFileHandler
-# Import the blueprints
-from project.stocks import stocks_blueprint
-from project.users import users_blueprint
 
 app = Flask(__name__)
 
-# TEMPORARY
-app.secret_key = 'BAD_SECRET_KEY'
+# Configuration file
+config_type = os.getenv('CONFIG_TYPE', default='config.DevelopmentConfig')
+app.config.from_object(config_type)
 
 # Remove the default logger configured by Flask
 app.logger.removeHandler(default_handler)
 
 # Logging Configuration
-file_handler = RotatingFileHandler('flask-stock-portfolio.log',
+file_handler = RotatingFileHandler('instance/flask-stock-portfolio.log',
                                    maxBytes=16384,
                                    backupCount=20)
 # file_handler = logging.FileHandler('flask-stock-portfolio.log')
@@ -26,6 +25,10 @@ app.logger.addHandler(file_handler)
 
 # Log that the Flask application is starting
 app.logger.info('Starting the Flask Stock Portfolio App...')
+
+# Import the blueprints
+from project.stocks import stocks_blueprint
+from project.users import users_blueprint
 
 # Register blueprints
 app.register_blueprint(stocks_blueprint)
