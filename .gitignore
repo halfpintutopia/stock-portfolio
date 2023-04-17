@@ -2,6 +2,9 @@ venv
 .idea
 __pycache__
 env.py
-flask-stock-portfolio.log
 flask.cfg
-instance
+# Instance Folder - used for run-time files
+instance/*.cfg
+instance/*.db
+instance/*.log
+instance/*.log*
