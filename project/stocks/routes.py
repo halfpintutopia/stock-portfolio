@@ -3,6 +3,26 @@ from pydantic import BaseModel, validator, ValidationError
 from . import stocks_blueprint
 
 
+# --------------------------------------------------------------------
+# Request Callbacks
+# teardown_appcontext callback is not available at the blueprint-level
+# --------------------------------------------------------------------
+@stocks_blueprint.before_request
+def stocks_before_request():
+    current_app.logger.info('Calling before_request() for the stocks blueprint...')
+
+
+@stocks_blueprint.after_request
+def stocks_after_request(response):
+    current_app.logger.info('Calling after_request() for the stocks blueprint...')
+    return response
+
+
+@stocks_blueprint.teardown_request
+def stocks_teardown_request(error=None):
+    current_app.logger.info('Calling teardown_request() for the stocks blueprint...')
+
+
 # --------------
 # Helper Classes
 # --------------

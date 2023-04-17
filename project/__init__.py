@@ -9,6 +9,7 @@ from flask.logging import default_handler
 # Application Factory Function
 # ----------------------------
 
+# create_app function handles the 'Application State' - create and initialize
 def create_app():
     # Creates the Flask application (move from app.py in root to project)
     app = Flask(__name__)
@@ -21,6 +22,8 @@ def create_app():
     register_blueprints(app)
     # Configure the logger
     configure_logging(app)
+
+    register_app_callbacks(app)
     return app
 
 
@@ -28,6 +31,8 @@ def register_blueprints(app):
     from project.stocks import stocks_blueprint
     from project.users import users_blueprint
     # Import blueprints in this function to avoid a circular reference
+    # The blueprints effectively handle the 'Steady State' - where requests are processed (by view functions
+    # and responses are returned
     app.register_blueprint(stocks_blueprint)
     app.register_blueprint(users_blueprint, url='/users')
 
@@ -47,3 +52,22 @@ def configure_logging(app):
 
     # Log that the Flask application is starting
     app.logger.info('Starting the Flask Stock Portfolio App...')
+
+
+def register_app_callbacks(app):
+    @app.before_request
+    def app_before_request():
+        app.logger.info('Calling before_request() for the Flask application...')
+
+    @app.after_request
+    def app_after_request(response):
+        app.logger.info('Calling after_request() for the Flask application...')
+        return response
+
+    @app.teardown_request
+    def app_teardown_request(error=None):
+        app.logger.info('Calling teardown_request() for the Flask application...')
+
+    @app.teardown_appcontext
+    def app_teardown_appcontext(error=None):
+        app.logger.info('Calling teardown_appcontext() for the Flask application...')
