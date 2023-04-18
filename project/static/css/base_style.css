@@ -174,14 +174,14 @@ h2 {
 /* Error Page Styling
  ********************/
 .errorpage-title {
-    text-align: center;
-    margin-bottom: 1em;
+  text-align: center;
+  margin-bottom: 1em;
 }
 
-.errorpage-text {
-    text-align: center;
-    font-size: 1.15rem;
-    margin-bottom: 1em;
+.errorpage-section {
+  text-align: center;
+  font-size: 1.15rem;
+  margin-bottom: 1em;
 }
 
 
