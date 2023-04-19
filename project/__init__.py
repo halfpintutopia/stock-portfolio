@@ -23,7 +23,7 @@ def initialize_extensions(app):
     # Since the application instance is now create, pass it to each Flask
     # extension instance to bind it to the Flask application instance (app)
     database.init_app(app)
-    db_migration.init_app(app)
+    db_migration.init_app(app, database)
 
 
 # ----------------------------
