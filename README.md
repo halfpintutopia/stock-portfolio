@@ -25,6 +25,50 @@ Configure the Flask development server run in «development» mode
 
 `flask run` or `flask --app app --debug run`
 
+
+# Flask CLI
+### Create database
+`flask shell`
+```shell
+from project import database
+database.create_all()
+quit()
+```
+
+### Resetting the database
+`flask shell`
+```shell
+from project import database
+database.drop_all()
+database.create_all()
+quit()
+```
+
+### Check routes defined in Flask app
+`flask shell`
+```shell
+print(app.url_map)
+quit()
+```
+
+### See the blueprints that are registered in Flask app
+`flask shell`
+```shell
+print(app.blueprints)
+quit()
+```
+
+### See attributes for the app
+`flask shell`
+```shell
+print(dir(app))
+quit()
+```
+
+CLI commands can also be used directly in the Flask application object or blueprint. 
+- To pre-populate tables with data in the database
+
+
 # Tests
 
 Run test<br/>
@@ -94,3 +138,5 @@ Then in virtual environment:
 As I already was running a project and had a requirements.txt file
 
 `pip install -r requirements.txt`
+
+
