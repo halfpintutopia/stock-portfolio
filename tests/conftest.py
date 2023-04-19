@@ -13,7 +13,7 @@ def new_stock():
 
 @pytest.fixture(scope='module')
 def new_user():
-    user = User('sir@email.com', 'privatePassword123')
+    user = User('siri@email.com', 'privatePassword123')
     return user
 
 
