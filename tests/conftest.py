@@ -1,7 +1,7 @@
 import pytest
 from project import create_app
 from flask import current_app  # <--- proxy
-from project.models import Stock
+from project.models import Stock, User
 from project import database
 
 
@@ -9,6 +9,12 @@ from project import database
 def new_stock():
     stock = Stock('AAPL', '16', '406.78')
     return stock
+
+
+@pytest.fixture(scope='module')
+def new_user():
+    user = User('sir@email.com', 'privatePassword123')
+    return user
 
 
 @pytest.fixture(scope='module')
