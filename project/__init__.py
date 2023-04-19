@@ -3,6 +3,24 @@ import logging
 from flask import Flask, render_template
 from logging.handlers import RotatingFileHandler
 from flask.logging import default_handler
+from flask_sqlalchemy import SQLAlchemy
+
+# --------------
+# Configuration
+# --------------
+# Create the instances of th Flask extension in the global scope,
+# but without any arguments passed in. These instances are not
+# attached to the Flask application at this point.
+database = SQLAlchemy()
+
+
+# ----------------
+# Helper Functions
+# ----------------
+def initialize_extensions(app):
+    # Since the application instance is now create, pass it to each Flask
+    # extension instance to bind it to the Flask application instance (app)
+    database.init_app(app)
 
 
 # ----------------------------
@@ -18,6 +36,7 @@ def create_app():
     config_type = os.getenv('CONFIG_TYPE', default='config.DevelopmentConfig')
     app.config.from_object(config_type)
 
+    initialize_extensions(app)
     # Register the blueprints in the project
     register_blueprints(app)
     # Configure the logger
