@@ -6,6 +6,7 @@ from flask.logging import default_handler
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_wtf import CSRFProtect
+from flask_login import LoginManager
 
 # --------------
 # Configuration
@@ -17,6 +18,8 @@ database = SQLAlchemy()
 db_migration = Migrate()
 # create a CSRFProtect object
 csrf_protection = CSRFProtect()
+login = LoginManager()
+login.login_view = 'users.login'
 
 
 # ----------------
@@ -28,6 +31,16 @@ def initialize_extensions(app):
     database.init_app(app)
     db_migration.init_app(app, database)
     csrf_protection.init_app(app)
+
+    login.init_app(app)
+
+    from project.models import User
+
+    # Specify how the Flask-Login module should load a user from the database
+    # the user_loader callback, used to reload the user object from the session
+    @login.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
 
 
 # ----------------------------
