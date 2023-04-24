@@ -37,6 +37,7 @@ def test_client():
         # so that the database can be cleared
         with flask_app.app_context():
             database.drop_all()
+            database.create_all()
 
 
 @pytest.fixture(scope="function")

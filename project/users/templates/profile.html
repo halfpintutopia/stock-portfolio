@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block styling %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_profile_style.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -10,8 +10,9 @@
         <div class="card-heading">
             <h2>Account</h2>
         </div>
+        <div class="card-body">
+            <p>Email: {{ current_user.email }}</p>
+        </div>
     </div>
-    <div class="card-body">
-        <p>Email: {{ current_user.email }}</p>
-    </div>
+
 {% endblock %}

@@ -1,3 +1,4 @@
+from urllib.parse import urlparse
 from . import users_blueprint
 from flask import render_template, flash, abort, request, current_app, redirect, url_for, escape
 from .forms import RegistrationForm, LoginForm
@@ -69,11 +70,25 @@ def login():
         if form.validate_on_submit():
             user = User.query.filter_by(email=form.email.data).first()
             if user and user.is_password_correct(form.password.data):
-                # User's credentials have been validate, so log them in
+                # User's credentials have been validated, so log them in
                 login_user(user, remember=form.remember_me.data)
                 flash(f'Thanks for logging in, {current_user.email}!')
                 current_app.logger.info(f'Logged in user: {current_user.email}')
-                return redirect(url_for('stocks.index'))
+
+                # If the next URL is not specified, redirect to the user profile
+                if not request.args.get('next'):
+                    return redirect(url_for('users.user_profile'))
+
+                # Process the query to determine if the user should be redirected after logging in
+                next_url = request.args.get('next')
+                # ParseResult(scheme='http', netloc='127.0.0.1:5000', path='/users/login', params='', query='next=%2Fusers%2Fprofile', fragment='')
+                if urlparse(next_url).scheme != '' or urlparse(next_url).netloc != '':
+                    current_app.logger.info(f'Invalid next path in login request: {next_url}')
+                    logout_user()
+                    return abort(400)
+
+                current_app.logger.info(f'Redirecting after valid login to: {next_url}')
+                return redirect(next_url)
 
         flash('ERROR! Incorrect login credentials.', 'error')
 
