@@ -40,7 +40,7 @@ def initialize_extensions(app):
     # the user_loader callback, used to reload the user object from the session
     @login.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        return database.session.get(User, int(user_id))
 
 
 # ----------------------------

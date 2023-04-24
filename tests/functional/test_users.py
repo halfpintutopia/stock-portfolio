@@ -98,7 +98,7 @@ def test_valid_login_and_logout(test_client, register_default_user):
     """
     response = test_client.post('/users/login',
                                 data={'email': 'siri@email.com',
-                                      'password': 'private123'},
+                                      'password': 'privatePassword123'},
                                 follow_redirects=True)
     assert response.status_code == 200
     assert b'Thanks for logging in, siri@email.com!' in response.data
