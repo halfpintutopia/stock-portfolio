@@ -1,3 +1,6 @@
+from project import mail
+
+
 def test_get_registration_page(test_client):
     """
     GIVEN a Flask application configured for testing
@@ -18,13 +21,18 @@ def test_valid_registration(test_client):
     WHEN the '/users/register' page is posted to (POST) with valid data
     THEN check the response is valid and the user is registered
     """
-    response = test_client.post('/users/register',
-                                data={'email': 'siri@email.com',
-                                      'password': 'privatePassword123'},
-                                follow_redirects=True)
-    assert response.status_code == 200
-    assert b'Thanks for registering, siri@email.com!' in response.data
-    assert b'Flask Stock Portfolio App' in response.data
+    with mail.record_messages() as outbox:
+        response = test_client.post('/users/register',
+                                    data={'email': 'siri@email.com',
+                                          'password': 'privatePassword123'},
+                                    follow_redirects=True)
+        assert response.status_code == 200
+        assert b'Thanks for registering, siri@email.com!' in response.data
+        assert b'Flask Stock Portfolio App' in response.data
+        assert len(outbox) == 1
+        assert outbox[0].subject == "Registration - Flask Stock Portfolio App"
+        assert outbox[0].sender == "flaskstockportfolioapp@email.com"
+        assert outbox[0].recipients[0] == "siri@email.com"
 
 
 def test_invalid_registration(test_client):
@@ -297,4 +305,3 @@ def test_login_with_next_invalid_path(test_client, register_default_user):
     assert response.status_code == 400
     assert b'User Profile' not in response.data
     assert b'Email: siri@email.com' not in response.data
-
